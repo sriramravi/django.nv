@@ -57,6 +57,20 @@ jobs:
           docker_name: 'owasp/zap2docker-stable:2.10.0'
           target: ${{ secrets.PROD_URL }}
           
+  secret_scanning:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog file:///src --json > trufflehog-output.json
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: TruffleHog
+          path: trufflehog-output.json
+        if: always()
+          
   oast-frontend:
     runs-on: ubuntu-latest
     needs: test
@@ -76,7 +90,7 @@ jobs:
         with:
           name: RetireJS
           path: retirejs-report.json
-        if: always()                        # what is this for?
+        if: always()
 
   integration:
     runs-on: ubuntu-latest
