@@ -63,7 +63,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: docker run --rm -v $(pwd)/django.nv:/src hysnsec/trufflehog file:///src --json > trufflehog-output.json
+      - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog file:///src --json > trufflehog-output.json
+        continue-on-error: true
 
       - uses: actions/upload-artifact@v2
         with:
