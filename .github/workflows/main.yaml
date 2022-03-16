@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: docker run --rm -v $(pwd):/src hysnsec/bandit -r /src -f json -o bandit-output.json
+      - run: docker run --rm -v $(pwd):/src hysnsec/bandit -f json -o bandit-output.json
 
       - uses: actions/upload-artifact@v2
         with:
